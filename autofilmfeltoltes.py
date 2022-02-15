@@ -1,4 +1,4 @@
-# 2022.02.14
+# 2022.02.15
 import requests
 from PIL import Image
 import glob
@@ -38,7 +38,9 @@ def trailer(id):
 
 # egy film adatait feltölti a wordpress bloghoz tartozo email cimre
 def feltotes(f):
-    youTube = f'<iframe width="560" height="315" src="{trailer(f["imdb"])}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
+    youTube = ""
+    if trailer(f["imdb"]) != "https://www.youtube.com/embed/":
+        youTube = f'<iframe width="560" height="315" src="{trailer(f["imdb"])}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
     objektiv = (
         f["magyarTartalom"]
         + "\n\n"
@@ -196,7 +198,7 @@ def kepekTorlese():
     return
 
 #itt kezdődik a program
-print("Film keresés és feltöltés v2.0")
+print("Film keresés és feltöltés v2.1")
 yag = yagmail.SMTP(user="interfeszpress@gmail.com", password="jdxtlnjitfdsqqns")
 kepPath = "filmkepek/"
 try:
@@ -232,22 +234,22 @@ if azon == -1:
     filmTeljesAdat = uresFilmAdat
 else:
     filmTeljesAdat = filmLista[azon]
-filmTeljesAdat = adatKorrekcio(filmTeljesAdat)
-posterFeltoltes(filmTeljesAdat)
-sajatKep = ""
-#sajatKep = input("Szeretnél saját képeket használni (Y/N)? ")
-if sajatKep == "Y":
-    print("Töltsd fel a kepeket a 'filmkepek/' könyvtárba!")
-    fel = input("Feltöltötted (Y/N)? ")
-    if fel == "Y":
-        None
-else:
-    pillanat("Keresem a képeket")
-    imdbKepek(filmTeljesAdat["imdb"])
-ok = input("\nMinden rendben (Y/N)? ")
-if ok == "Y":
-    feltotes(filmTeljesAdat)
-    print("\nA film fel van töltve.")
-else:
-    print("\nNem sikerült a feltöltés.")
-kepekTorlese()
+    filmTeljesAdat = adatKorrekcio(filmTeljesAdat)
+    posterFeltoltes(filmTeljesAdat)
+    sajatKep = ""
+    #sajatKep = input("Szeretnél saját képeket használni (Y/N)? ")
+    if sajatKep == "Y":
+        print("Töltsd fel a kepeket a 'filmkepek/' könyvtárba!")
+        fel = input("Feltöltötted (Y/N)? ")
+        if fel == "Y":
+            None
+    else:
+        pillanat("Keresem a képeket")
+        imdbKepek(filmTeljesAdat["imdb"])
+    ok = input("\nMinden rendben (Y/N)? ")
+    if ok == "Y":
+        feltotes(filmTeljesAdat)
+        print("\nA film fel van töltve.")
+    else:
+        print("\nNem sikerült a feltöltés.")
+    kepekTorlese()
