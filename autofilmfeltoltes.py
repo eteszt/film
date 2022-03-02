@@ -1,4 +1,4 @@
-# 2022.02.15
+# 2022.02.21
 import requests
 from PIL import Image
 import glob
@@ -21,7 +21,7 @@ def listToString(l):
 
 
 def correct(cimke, szoveg):
-    if cimke != "azonosito" and cimke != "poster" and cimke != "imdb":
+    if cimke != "azonosito" and cimke != "poster" and cimke != "mdb":
         print(cimke + ":  " + szoveg)
         segedSzoveg = input()
         if segedSzoveg != "":
@@ -165,7 +165,7 @@ def posterFeltoltes(film):
     pFile.write(pKep.content)
     pFile.close()
     image = Image.open(kepPath + "x_plakat.jpg")
-    image.thumbnail((400, 500))
+    image.thumbnail((700, 1200))
     image.save(kepPath + "x_plakat.jpg")
     return
 
@@ -180,13 +180,16 @@ def imdbKepek(id):
         pFile = open(kepPath + "kep" + str(i) + ".jpg", "wb")
         pFile.write(pKep.content)
         pFile.close()
-        image = Image.open(kepPath + "kep" + str(i) + ".jpg")
-        width, height = image.size
-        print(i, width, height)
-        if width > height:
-            image.thumbnail((1600, 1200))
-            image.save(kepPath + "kep" + str(i) + ".jpg")
-        else:
+        try:
+            image = Image.open(kepPath + "kep" + str(i) + ".jpg")
+            width, height = image.size
+            print(i, width, height)
+            if width > height:
+                image.thumbnail((1600, 1200))
+                image.save(kepPath + "kep" + str(i) + ".jpg")
+            else:
+                os.remove(kepPath + "kep" + str(i) + ".jpg")
+        except:
             os.remove(kepPath + "kep" + str(i) + ".jpg")
     return
 
@@ -198,7 +201,7 @@ def kepekTorlese():
     return
 
 #itt kezdődik a program
-print("Film keresés és feltöltés v2.1")
+print("Film keresés és feltöltés v2.3")
 yag = yagmail.SMTP(user="interfeszpress@gmail.com", password="jdxtlnjitfdsqqns")
 kepPath = "filmkepek/"
 try:
@@ -234,6 +237,8 @@ if azon == -1:
     filmTeljesAdat = uresFilmAdat
 else:
     filmTeljesAdat = filmLista[azon]
+    if filmTeljesAdat["szavazat"]=="0.0":
+        filmTeljesAdat["szavazat"]="-/0"
     filmTeljesAdat = adatKorrekcio(filmTeljesAdat)
     posterFeltoltes(filmTeljesAdat)
     sajatKep = ""
