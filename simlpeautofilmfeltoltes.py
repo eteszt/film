@@ -40,8 +40,9 @@ def trailer(id):
 # egy film adatait feltölti a wordpress bloghoz tartozo email cimre
 def feltotes(f):
     youTube = ""
-    if trailer(f["imdb"]) != "https://www.youtube.com/embed/":
-        youTube = f'<iframe width="560" height="315" src="{trailer(f["imdb"])}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
+    if f["imdb"] != None:
+        if trailer(f["imdb"]) != "https://www.youtube.com/embed/":
+            youTube = f'<iframe width="560" height="315" src="{trailer(f["imdb"])}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
     objektiv = (
         f["magyarTartalom"]
         + "\n\n"
@@ -286,7 +287,8 @@ if sajatKep == "Y":
 else:
     pillanat("Keresem a képeket")
     posterFeltoltes(filmTeljesAdat)
-    imdbKepek(filmTeljesAdat["imdb"])
+    if filmTeljesAdat ['imdb'] != None:
+        imdbKepek(filmTeljesAdat["imdb"])
 ok = "Y"
 #ok = input("\nMinden rendben (Y/N)? ")
 if ok == "Y":
