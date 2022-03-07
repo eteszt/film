@@ -279,7 +279,7 @@ filmTeljesAdat = simpleAdatKorrekcio(filmTeljesAdat)
 sajatKep = ""
 sajatKep = input("Szeretnél saját képeket használni (Y/N)? ")
 if sajatKep == "Y":
-    print("Töltsd fel a kepeket a 'filmkepek/' könyvtárba!")
+    print("Töltsd fel a kepeket a 'filmkepek/' könyvtárba! Legyen közte plakátkép, ennek neve legyen plakat.jpg, a többi kép neve tetszőleges.")
     fel = input("Feltöltötted (Y/N)? ")
     if fel == "Y":
         None
