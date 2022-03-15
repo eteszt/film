@@ -34,14 +34,17 @@ def trailer(id):
     api_url = "https://imdb-api.com/en/API/YouTubeTrailer/k_esxzc7d2/" + id
     response = requests.get(api_url)
     videoUrl = response.json()["videoUrl"]
-    return "https://www.youtube.com/embed/" + videoUrl[videoUrl.find("=") + 1 :]
-
+    if videoUrl != None:
+        return "https://www.youtube.com/embed/" + videoUrl[videoUrl.find("=") + 1 :]
+    else:
+        return None
 
 # egy film adatait feltölti a wordpress bloghoz tartozo email cimre
 def feltotes(f):
     youTube = ""
     if f["imdb"] != None:
-        if trailer(f["imdb"]) != "https://www.youtube.com/embed/":
+        #  if trailer(f["imdb"]) != "https://www.youtube.com/embed/":
+        if trailer(f["imdb"]) != None:
             youTube = f'<iframe width="560" height="315" src="{trailer(f["imdb"])}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
     objektiv = (
         f["magyarTartalom"]
